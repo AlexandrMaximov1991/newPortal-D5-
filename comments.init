@@ -1,0 +1,141 @@
+from news_portal.models import *
+
+1
+# Создать двух пользователей (с помощью метода User.objects.create_user('username')).
+user1 = User.objects.create_user('Alexandr')
+user2 = User.objects.create_user('Helen')
+
+
+2
+# Создать два объекта модели Author, связанные с пользователями.
+Author.objects.create(authorUser = user1)
+Author.objects.create(authorUser = user2)
+
+Author1 = Author.objects.get(id = 1)
+Author2 = Author.objects.get(id = 2)
+
+
+3
+# Добавить 4 категории в модель Category.
+Category.objects.create(categoryname = 'Здоровье')
+Category.objects.create(categoryname = 'Политика')
+Category.objects.create(categoryname = 'IT')
+Category.objects.create(categoryname = 'Авто')
+
+category1 = Category.objects.get(id = 1)
+category2 = Category.objects.get(id = 2)
+category3 = Category.objects.get(id = 3)
+category4 = Category.objects.get(id = 4)
+
+
+4
+#Добавить 2 статьи и 1 новость.
+Post.objects.create(PostAuthor = Author1, categoryType ='NW', postTitle = 'Первые симптомы заражения омикроном проявляются в течение первых трех дней. ', postText = 'Самыми ранними симптомами омикрон-штамма коронавируса являются першение в горле, боль в пояснице, заложенность носа, головная боль, усталость, чихание, ночная потливость и ломота в теле. Об этом со ссылкой на данные, полученные врачами из Великобритании, США и Южной Африки, сообщает газета Express. ')
+Post.objects.create(PostAuthor = Author2, categoryType = 'AR', postTitle ='На дорогах Беларуси массово заработают камеры фотофиксации. ', postText ='Система фото и видеофиксации технически готова к массовому контролю правонарушений в сфере гостехосмотра, сообщается на сайте УП «Белгостехосмотр». ')
+Post.objects.create(PostAuthor = Author2, categoryType ='AR', postTitle =' Грузы, которые не пропустит Беларусь, Литва будет возить через Польшу и Латвию.', postText = 'Грузы, которые не пропустит Беларусь, Литва собирается возить через Польшу и Латвию, пишет Delfi. В среду стало известно, что власти Беларуси с 7 февраля вводят запрет на транзит по железной дороге из Литвы нефтепродуктов, химических и минеральных удобрений, погруженных на литовских станциях. Это ответ на прекращение Литвой с 1 февраля транзита белорусских калийных удобрений. ')
+
+post1 = Post.objects.get(id = 1)
+post2 = Post.objects.get(id = 2)
+post3 = Post.objects.get(id = 3)
+
+
+5
+# Присвоить им категории (как минимум в одной статье/новости должно быть не меньше 2 категорий).
+post1.postCategory.add(category1)
+post1.postCategory. add (category2)
+
+post2.postCategory. add (category3)
+post2.postCategory. add (category4)
+
+post3.postCategory. add(category2)
+post3.postCategory. add (category4)
+
+
+6
+#Создать как минимум 4 комментария к разным объектам модели Post (в каждом объекте должен быть как минимум один комментарий).
+Comment.objects.create(commentPost = post1, commentUser = Author1.authorUser, commentText = 'Ужас')
+
+Comment.objects.create(commentPost = post2, commentUser = Author1.authorUser, commentText = 'Будьте осторожны')
+
+Comment.objects.create(commentPost = post3, commentUser = Author2.authorUser, commentText =' Ну и правильно')
+
+Comment.objects.create(commentPost = post1, commentUser = Author1.authorUser, commentText =' Как так-то?')
+
+
+comment1 = Comment.objects.get(id = 1)
+comment2 = Comment.objects.get(id = 2)
+comment3 = Comment.objects.get(id = 3)
+comment4 = Comment.objects.get(id = 4)
+
+
+7
+# Применяя функции like() и dislike() к статьям/новостям и комментариям, скорректировать рейтинги этих объектов.
+post1.like()
+post2.like()
+post2.like()
+post1.like()
+post3.like()
+post3.like()
+
+post1.dislike()
+post3. dislike ()
+post2. dislike ()
+post1. dislike ()
+post2. dislike ()
+
+comment1.like()
+comment2.like()
+comment2.like()
+comment3.like()
+comment3.like()
+comment4.like()
+comment4.like()
+comment4.like()
+comment4.like()
+
+comment1. dislike ()
+comment1. dislike ()
+comment2. dislike ()
+comment3. dislike ()
+comment4. dislike ()
+comment4. dislike ()
+
+post1.postRating
+post2.postRating
+post3.postRating
+
+comment1.comRating
+comment2.comRating
+comment3.comRating
+comment4.comRating
+
+
+8
+# Обновить рейтинги пользователей.
+Author.objects.get(id=1).update_rating()
+Author.objects.get(id=2).update_rating()
+
+
+9
+#
+a = Author.objects.order_by('-authorRating')[0]
+a.authorUser.username
+a.authorRating
+
+
+10
+#вывести лучшую статью
+p = Post.objects.order_by('-postRating')[0]
+p.PostAuthor.authorUser.username
+p.pubData
+p.postRating
+p.postTitle
+p.preview()
+
+
+11
+# Вывести все комментарии (дата, пользователь, рейтинг, текст) к этой статье.
+p.pubData
+p.PostAuthor.authorUser.username
+p.postRating
+p.postText
